@@ -89,7 +89,7 @@ export default function Home() {
         <div className="relative z-10 max-w-6xl mx-auto flex flex-col md:flex-row items-start md:space-x-12">
           <div className="md:w-2/3">
             <h1 className="text-5xl sm:text-6xl font-bold font-space-grotesk mb-6">Your mommy didn't approve your idea, but we will.</h1>
-            <p className="text-lg font-inter text-muted-text mb-8">Not just another newsletter. We review tech projects worth your attention so that you don't. Founders get visibility. You get to stay ahead in the game.</p>
+            <p className="text-lg font-inter text-muted-text mb-8">Not just another newsletter. We also review tech projects worth your attention so that you don't. Founders get visibility. You get to stay ahead in the game.</p>
             <form onSubmit={handleSubscribe} className="flex justify-start items-center space-x-2">
               <input
                 type="email"
@@ -106,7 +106,7 @@ export default function Home() {
                 {loading ? 'Subscribing...' : 'Subscribe'}
               </button>
             </form>
-            <p className="text-sm text-muted-text mt-4 font-inter">Join 00,000+ readers worldwide now</p>
+            <p className="text-sm text-muted-text mt-4 font-inter">Join 00,350+ readers worldwide now</p>
           </div>
           <div className="md:w-1/3 flex flex-col items-center mt-10 md:mt-0">
             <div className="w-80 h-80 bg-white shadow-lg rounded-lg flex items-center justify-center">

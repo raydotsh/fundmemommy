@@ -392,9 +392,9 @@ export default function Home() {
             </p>
             <a
               href="#hero"
-              className="inline-flex items-center text-foreground transition hover:text-muted-text"
+              className="inline-block rounded-full bg-foreground px-6 py-3 text-base-100 transition hover:bg-opacity-80"
             >
-              Go to signup
+              Subscribe
             </a>
           </div>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">

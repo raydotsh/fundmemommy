@@ -392,7 +392,7 @@ export default function Home() {
             </p>
             <a
               href="#hero"
-              className="inline-block rounded-full bg-foreground px-6 py-3 text-base-100 transition hover:bg-opacity-80"
+              className="inline-block rounded-full bg-black px-6 py-3 font-bold text-white transition-colors hover:bg-gray-800"
             >
               Subscribe
             </a>

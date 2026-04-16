@@ -46,8 +46,10 @@ export default function Home() {
         className="sticky top-0 z-50 border-b border-base-300 bg-base-100/80 backdrop-blur-md"
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between py-4">
-            <div className="text-lg font-bold sm:text-xl">fund me mommy.</div>
+          <div className="flex items-center justify-between gap-3 py-3 sm:py-4">
+            <div className="min-w-0 text-base font-bold leading-tight sm:text-xl">
+              fund me mommy.
+            </div>
             <nav className="hidden md:flex space-x-8">
               <a href="#hero" className="transition hover:text-muted-text">
                 Home
@@ -62,7 +64,7 @@ export default function Home() {
                 Contact Us
               </a>
             </nav>
-            <div className="flex items-center space-x-4">
+            <div className="flex shrink-0 items-center space-x-3">
               <a
                 href="#hero"
                 className="hidden rounded-full bg-foreground px-4 py-2 text-base-100 transition hover:bg-opacity-80 md:block"
@@ -71,7 +73,7 @@ export default function Home() {
               </a>
               <button
                 onClick={toggleMenu}
-                className="p-2 md:hidden"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-transparent p-0 text-foreground transition hover:translate-y-0 hover:bg-base-200 md:hidden"
                 aria-label={menuOpen ? 'Close menu' : 'Open menu'}
               >
                 <svg
@@ -99,13 +101,13 @@ export default function Home() {
             onClick={toggleMenu}
           >
             <div
-              className="fixed right-0 top-0 h-full w-[min(18rem,85vw)] bg-base-100 shadow-lg"
+              className="fixed right-0 top-0 h-full w-[min(18rem,85vw)] border-l border-base-300 bg-base-100 shadow-lg"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="p-4">
+              <div className="p-4 pt-3">
                 <button
                   onClick={toggleMenu}
-                  className="float-right p-2"
+                  className="ml-auto flex h-10 w-10 items-center justify-center rounded-full bg-transparent p-0 text-foreground transition hover:translate-y-0 hover:bg-base-200"
                   aria-label="Close menu"
                 >
                   <svg
@@ -122,34 +124,34 @@ export default function Home() {
                     />
                   </svg>
                 </button>
-                <nav className="mt-8 space-y-4">
+                <nav className="mt-6 space-y-2">
                   <a
                     href="#hero"
-                    className="block transition hover:text-muted-text"
+                    className="block rounded-xl px-3 py-3 transition hover:bg-base-200 hover:text-muted-text"
                   >
                     Home
                   </a>
                   <a
                     href="#this-week"
-                    className="block transition hover:text-muted-text"
+                    className="block rounded-xl px-3 py-3 transition hover:bg-base-200 hover:text-muted-text"
                   >
                     This Week
                   </a>
                   <a
                     href="#features"
-                    className="block transition hover:text-muted-text"
+                    className="block rounded-xl px-3 py-3 transition hover:bg-base-200 hover:text-muted-text"
                   >
                     Stats
                   </a>
                   <a
                     href="#faq"
-                    className="block transition hover:text-muted-text"
+                    className="block rounded-xl px-3 py-3 transition hover:bg-base-200 hover:text-muted-text"
                   >
                     Contact Us
                   </a>
                   <a
                     href="#hero"
-                    className="block rounded-full bg-foreground px-4 py-2 text-center text-base-100 transition hover:bg-opacity-80"
+                    className="mt-4 block rounded-full bg-foreground px-4 py-3 text-center text-base-100 transition hover:bg-opacity-80"
                   >
                     Subscribe
                   </a>

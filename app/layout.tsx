@@ -24,9 +24,7 @@ export default function RootLayout({
       lang="en"
       className={`${merriweather.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-merriweather overflow-x-hidden">
-        {children}
-      </body>
+      <body className="min-h-full flex flex-col font-merriweather">{children}</body>
     </html>
   );
 }

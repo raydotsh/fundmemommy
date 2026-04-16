@@ -1,26 +1,113 @@
 @import "tailwindcss";
 
 :root {
+  /* Core monochrome palette */
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #09090b;
+
+  --base-100: #ffffff;
+  --base-200: #f5f5f5;
+  --base-300: #e4e4e7;
+
+  --muted-text: #6b7280;
+
+  --accent: #09090b;
+  --accent-hover: #27272a;
+  --accent-ring: rgba(9, 9, 11, 0.15);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-base-100: var(--base-100);
+  --color-base-200: var(--base-200);
+  --color-base-300: var(--base-300);
+  --color-muted-text: var(--muted-text);
+  --color-accent: var(--accent);
+  --font-merriweather: var(--font-merriweather);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
   }
 }
 
+.animate-scroll {
+  animation: scroll 20s linear infinite;
+}
+
+.bg-gradient-subtle {
+  background: linear-gradient(
+    135deg,
+    #ffffff 0%,
+    #fafafa 50%,
+    #f2f2f2 100%
+  );
+}
+
+.bg-gradient-hero {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(244, 244, 245, 0.8) 100%
+  );
+}
+
 body {
-  background: var(--background);
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #fafafa 50%,
+    #f4f4f5 100%
+  );
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-merriweather), serif;
+}
+
+/* Cards / sections */
+.card,
+.section-box {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #e4e4e7;
+  border-radius: 1rem;
+}
+
+/* Inputs / email box */
+input,
+textarea {
+  border: 1.5px solid #d4d4d8;
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  outline: none;
+  transition: all 0.2s ease;
+  background: white;
+  color: var(--foreground);
+}
+
+input:focus,
+textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-ring);
+}
+
+/* Buttons */
+button,
+.btn-primary,
+.nav-subscribe-btn {
+  background: var(--accent);
+  color: white;
+  border-radius: 9999px;
+  padding: 0.75rem 1.5rem;
+  transition: all 0.2s ease;
+}
+
+button:hover,
+.btn-primary:hover,
+.nav-subscribe-btn:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
 }

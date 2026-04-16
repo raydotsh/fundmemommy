@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Space+Grotesk:wght@400;700&display=swap');
+
+/* Updated color palette */
+:root {
+  --color-primary: #25343F; /* Dark Blue */
+  --color-secondary: #BFC9D1; /* Light Gray */
+  --color-accent: #FF9B51; /* Orange */
+  --color-background: #EAEEEF; /* Lightest Gray */
+  --color-foreground: #FFFFFF; /* White */
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-primary);
+}
+
+header {
+  background-color: var(--color-primary);
+  color: var(--color-foreground);
+}
+
+button {
+  background-color: var(--color-accent);
+  color: var(--color-foreground);
+}
+
+.card {
+  background-color: var(--color-secondary);
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+}
+
+a {
+  color: var(--color-primary);
+}
+
+a:hover {
+  color: var(--color-accent);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Space Grotesk', sans-serif;
+}

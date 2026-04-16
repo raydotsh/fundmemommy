@@ -29,7 +29,7 @@ export default function Home() {
       } else {
         toast.error(data.message);
       }
-    } catch (error) {
+    } catch {
       toast.error('Something went wrong. Please try again.');
     } finally {
       setLoading(false);
@@ -37,12 +37,12 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-base-100 text-foreground overflow-x-hidden">
+    <div className="min-h-screen overflow-x-clip bg-base-100 text-foreground">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-base-100/80 backdrop-blur-md border-b border-base-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4 gap-4">
-            <div className="text-lg sm:text-xl font-bold whitespace-nowrap">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between gap-3 py-3 sm:gap-4 sm:py-4">
+            <div className="min-w-0 pr-2 text-base font-bold leading-none sm:text-xl">
               fund me mommy.
             </div>
 
@@ -61,7 +61,7 @@ export default function Home() {
               </a>
             </nav>
 
-            <div className="flex items-center space-x-4">
+            <div className="flex shrink-0 items-center space-x-2 sm:space-x-4">
               <a
                 href="#hero"
                 className="hidden md:block bg-foreground text-base-100 px-4 py-2 rounded-full"
@@ -69,7 +69,11 @@ export default function Home() {
                 Subscribe
               </a>
 
-              <button onClick={toggleMenu} className="md:hidden p-2">
+              <button
+                onClick={toggleMenu}
+                className="rounded-full p-2 md:hidden"
+                aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+              >
                 <svg
                   className="w-6 h-6"
                   fill="none"
@@ -95,25 +99,35 @@ export default function Home() {
             onClick={toggleMenu}
           >
             <div
-              className="absolute right-0 top-0 h-full w-72 bg-base-100 shadow-xl p-6"
+              className="absolute right-0 top-0 h-full w-full max-w-[20rem] bg-base-100 p-5 shadow-xl sm:max-w-[22rem] sm:p-6"
               onClick={(e) => e.stopPropagation()}
             >
-              <button onClick={toggleMenu} className="float-right p-2">
+              <button
+                onClick={toggleMenu}
+                className="float-right rounded-full p-2"
+                aria-label="Close menu"
+              >
                 ✕
               </button>
 
-              <nav className="mt-12 space-y-4">
-                <a href="#hero" className="block">
+              <nav className="mt-14 space-y-3">
+                <a href="#hero" className="block rounded-xl px-3 py-2">
                   Home
                 </a>
-                <a href="#this-week" className="block">
+                <a href="#this-week" className="block rounded-xl px-3 py-2">
                   This Week
                 </a>
-                <a href="#features" className="block">
+                <a href="#features" className="block rounded-xl px-3 py-2">
                   Stats
                 </a>
-                <a href="#faq" className="block">
+                <a href="#faq" className="block rounded-xl px-3 py-2">
                   Contact Us
+                </a>
+                <a
+                  href="#hero"
+                  className="mt-6 inline-flex rounded-full bg-black px-5 py-3 text-white"
+                >
+                  Subscribe
                 </a>
               </nav>
             </div>
@@ -124,47 +138,47 @@ export default function Home() {
       {/* Hero */}
       <section
         id="hero"
-        className="py-16 sm:py-20 lg:py-28 px-4 sm:px-6 lg:px-8"
+        className="px-4 py-12 sm:px-6 sm:py-20 lg:px-8 lg:py-28"
       >
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div className="order-2 lg:order-1 text-center lg:text-left">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-              Your mommy didn't approve your idea, but we will.
+        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-8 sm:gap-10 lg:grid-cols-2 lg:gap-12">
+          <div className="order-2 min-w-0 text-center lg:order-1 lg:text-left">
+            <h1 className="mb-5 text-3xl font-bold leading-tight text-balance sm:mb-6 sm:text-5xl lg:text-6xl">
+              Your mommy didn&apos;t approve your idea, but we will.
             </h1>
 
-            <p className="text-base sm:text-lg text-muted-text mb-8 max-w-2xl mx-auto lg:mx-0">
+            <p className="mx-auto mb-7 max-w-xl text-sm leading-7 text-muted-text sm:mb-8 sm:text-lg lg:mx-0 lg:max-w-2xl">
               Not just another newsletter. We also review tech projects worth
-              your attention so that you don't.
+              your attention so that you don&apos;t.
             </p>
 
             <form
               onSubmit={handleSubscribe}
-              className="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto lg:mx-0"
+              className="mx-auto flex w-full max-w-xl flex-col gap-3 sm:flex-row lg:mx-0"
             >
               <input
                 type="email"
                 placeholder="you@domain.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 px-4 py-3 rounded-full border border-base-300"
+                className="min-w-0 flex-1 rounded-full border border-base-300 px-4 py-3"
               />
 
               <button
                 type="submit"
                 disabled={loading}
-                className="px-6 py-3 bg-black text-white rounded-full font-bold"
+                className="w-full rounded-full bg-black px-6 py-3 font-bold text-white sm:w-auto"
               >
                 {loading ? 'Subscribing...' : 'Subscribe'}
               </button>
             </form>
 
-            <p className="text-sm text-muted-text mt-4">
+            <p className="mt-4 text-sm text-muted-text">
               Join 00,350+ readers worldwide now
             </p>
           </div>
 
-          <div className="order-1 lg:order-2 flex justify-center">
-            <div className="w-full max-w-xs sm:max-w-sm md:max-w-md aspect-square bg-white shadow-lg rounded-lg overflow-hidden">
+          <div className="order-1 flex justify-center lg:order-2">
+            <div className="aspect-square w-full max-w-[16rem] overflow-hidden rounded-2xl bg-white shadow-lg sm:max-w-sm md:max-w-md">
               <img
                 src="/hero.jpg"
                 alt="Hero"
@@ -178,11 +192,11 @@ export default function Home() {
       {/* Features */}
       <section
         id="features"
-        className="py-20 px-4 sm:px-6 lg:px-8 bg-base-200"
+        className="bg-base-200 px-4 py-16 sm:px-6 sm:py-20 lg:px-8"
       >
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto max-w-7xl">
           <div className="flex justify-center">
-            <div className="bg-base-100 border border-base-300 rounded-2xl p-8 sm:p-12 text-center w-full max-w-sm">
+            <div className="w-full max-w-sm rounded-2xl border border-base-300 bg-base-100 p-6 text-center sm:p-12">
               <div className="text-4xl font-bold mb-2">350</div>
               <div className="text-muted-text uppercase text-sm">
                 Total readers
@@ -193,19 +207,19 @@ export default function Home() {
       </section>
 
       {/* Benefits */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          <div className="bg-base-100 border rounded-2xl p-6">
+      <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-8">
+          <div className="rounded-2xl border bg-base-100 p-5 sm:p-6">
             <h3 className="font-bold mb-2">Project Spotlight</h3>
-            <p>10 indie tech projects you haven’t heard of yet.</p>
+            <p>10 indie tech projects you haven&apos;t heard of yet.</p>
           </div>
 
-          <div className="bg-base-100 border rounded-2xl p-6">
+          <div className="rounded-2xl border bg-base-100 p-5 sm:p-6">
             <h3 className="font-bold mb-2">Founder Story</h3>
             <p>The person behind the project gets their share of fame.</p>
           </div>
 
-          <div className="bg-base-100 border rounded-2xl p-6">
+          <div className="rounded-2xl border bg-base-100 p-5 sm:p-6">
             <h3 className="font-bold mb-2">Sunday Drop</h3>
             <p>Lands in your inbox every week.</p>
           </div>
@@ -215,17 +229,17 @@ export default function Home() {
       {/* FAQ */}
       <section
         id="faq"
-        className="py-20 px-4 sm:px-6 lg:px-8 bg-base-200"
+        className="bg-base-200 px-4 py-16 sm:px-6 sm:py-20 lg:px-8"
       >
-        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div className="bg-base-100 rounded-2xl p-6">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6">
+          <div className="rounded-2xl bg-base-100 p-5 sm:p-6">
             <h3 className="font-bold mb-2">What is FMM about?</h3>
             <p className="text-muted-text">
               Important shifts in technology and marketing.
             </p>
           </div>
 
-          <div className="bg-base-100 rounded-2xl p-6">
+          <div className="rounded-2xl bg-base-100 p-5 sm:p-6">
             <h3 className="font-bold mb-2">Who is it for?</h3>
             <p className="text-muted-text">
               Founders, tech enthusiasts, and builders.
@@ -235,8 +249,8 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-base-200 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+      <footer className="bg-base-200 px-4 py-12 sm:px-6 lg:px-8">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 lg:gap-10">
           <div>
             <div className="text-xl font-bold mb-2">FMM</div>
             <p className="text-muted-text">

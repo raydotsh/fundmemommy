@@ -81,6 +81,12 @@ export default function Home() {
               </a>
             </nav>
             <div className="flex shrink-0 items-center space-x-3">
+              <a
+                href="#hero"
+                className="hidden rounded-full bg-foreground px-4 py-2 text-base-100 transition hover:bg-opacity-80 md:block"
+              >
+                Subscribe
+              </a>
               <button
                 onClick={toggleMenu}
                 className="flex h-10 w-10 items-center justify-center rounded-full bg-transparent p-0 text-foreground transition hover:translate-y-0 hover:bg-base-200 md:hidden"

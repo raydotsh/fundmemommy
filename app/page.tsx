@@ -175,13 +175,6 @@ export default function Home() {
                   >
                     Contact Us
                   </a>
-                  <a
-                    href="#hero"
-                    className="mt-auto block rounded-full bg-foreground px-4 py-4 text-center text-lg text-base-100 transition hover:bg-opacity-80"
-                    onClick={(e) => handleMobileNav(e, '#hero')}
-                  >
-                    Subscribe
-                  </a>
                 </nav>
             </div>
           </div>

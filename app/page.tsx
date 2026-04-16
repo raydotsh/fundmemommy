@@ -10,6 +10,7 @@ export default function Home() {
   const [heroImageVisible, setHeroImageVisible] = useState(true);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
+  const closeMenu = () => setMenuOpen(false);
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -76,6 +77,7 @@ export default function Home() {
                 onClick={toggleMenu}
                 className="flex h-10 w-10 items-center justify-center rounded-full bg-transparent p-0 text-foreground transition hover:translate-y-0 hover:bg-base-200 md:hidden"
                 aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+                style={{ background: 'transparent', color: 'inherit', padding: 0 }}
               >
                 <svg
                   className="h-6 w-6"
@@ -102,14 +104,18 @@ export default function Home() {
             onClick={toggleMenu}
           >
             <div
-              className="fixed right-0 top-0 h-full w-[min(18rem,85vw)] border-l border-base-300 bg-base-100 shadow-lg"
+              className="fixed right-0 top-0 z-[60] flex h-full w-[min(20rem,88vw)] flex-col border-l border-base-300 bg-base-100 shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="p-4 pt-3">
+              <div className="flex items-center justify-between border-b border-base-300 px-4 py-4">
+                <div className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-text">
+                  Menu
+                </div>
                 <button
-                  onClick={toggleMenu}
-                  className="ml-auto flex h-10 w-10 items-center justify-center rounded-full bg-transparent p-0 text-foreground transition hover:translate-y-0 hover:bg-base-200"
+                  onClick={closeMenu}
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-transparent p-0 text-foreground transition hover:translate-y-0 hover:bg-base-200"
                   aria-label="Close menu"
+                  style={{ background: 'transparent', color: 'inherit', padding: 0 }}
                 >
                   <svg
                     className="h-6 w-6"
@@ -125,39 +131,44 @@ export default function Home() {
                     />
                   </svg>
                 </button>
-                <nav className="mt-6 space-y-2">
+              </div>
+              <nav className="flex flex-1 flex-col gap-2 px-4 py-6 text-lg">
                   <a
                     href="#hero"
                     className="block rounded-xl px-3 py-3 transition hover:bg-base-200 hover:text-muted-text"
+                    onClick={closeMenu}
                   >
                     Home
                   </a>
                   <a
                     href="#this-week"
                     className="block rounded-xl px-3 py-3 transition hover:bg-base-200 hover:text-muted-text"
+                    onClick={closeMenu}
                   >
                     This Week
                   </a>
                   <a
                     href="#features"
                     className="block rounded-xl px-3 py-3 transition hover:bg-base-200 hover:text-muted-text"
+                    onClick={closeMenu}
                   >
                     Stats
                   </a>
                   <a
                     href="#faq"
                     className="block rounded-xl px-3 py-3 transition hover:bg-base-200 hover:text-muted-text"
+                    onClick={closeMenu}
                   >
                     Contact Us
                   </a>
                   <a
                     href="#hero"
-                    className="mt-4 block rounded-full bg-foreground px-4 py-3 text-center text-base-100 transition hover:bg-opacity-80"
+                    className="mt-auto block rounded-full bg-foreground px-4 py-3 text-center text-base-100 transition hover:bg-opacity-80"
+                    onClick={closeMenu}
                   >
                     Subscribe
                   </a>
                 </nav>
-              </div>
             </div>
           </div>
         )}

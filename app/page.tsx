@@ -11,6 +11,20 @@ export default function Home() {
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const closeMenu = () => setMenuOpen(false);
+  const handleMobileNav = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    targetId: string
+  ) => {
+    e.preventDefault();
+    closeMenu();
+
+    requestAnimationFrame(() => {
+      const target = document.querySelector(targetId);
+      if (target instanceof HTMLElement) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  };
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,20 +73,14 @@ export default function Home() {
               <a href="#this-week" className="transition hover:text-muted-text">
                 This Week
               </a>
-              <a href="#features" className="transition hover:text-muted-text">
-                Stats
+              <a href="#prev" className="transition hover:text-muted-text">
+                Prev
               </a>
               <a href="#faq" className="transition hover:text-muted-text">
                 Contact Us
               </a>
             </nav>
             <div className="flex shrink-0 items-center space-x-3">
-              <a
-                href="#hero"
-                className="hidden rounded-full bg-foreground px-4 py-2 text-base-100 transition hover:bg-opacity-80 md:block"
-              >
-                Subscribe
-              </a>
               <button
                 onClick={toggleMenu}
                 className="flex h-10 w-10 items-center justify-center rounded-full bg-transparent p-0 text-foreground transition hover:translate-y-0 hover:bg-base-200 md:hidden"
@@ -136,35 +144,35 @@ export default function Home() {
                   <a
                     href="#hero"
                     className="block rounded-xl px-3 py-3 transition hover:bg-base-200 hover:text-muted-text"
-                    onClick={closeMenu}
+                    onClick={(e) => handleMobileNav(e, '#hero')}
                   >
                     Home
                   </a>
                   <a
                     href="#this-week"
                     className="block rounded-xl px-3 py-3 transition hover:bg-base-200 hover:text-muted-text"
-                    onClick={closeMenu}
+                    onClick={(e) => handleMobileNav(e, '#this-week')}
                   >
                     This Week
                   </a>
                   <a
-                    href="#features"
+                    href="#prev"
                     className="block rounded-xl px-3 py-3 transition hover:bg-base-200 hover:text-muted-text"
-                    onClick={closeMenu}
+                    onClick={(e) => handleMobileNav(e, '#prev')}
                   >
-                    Stats
+                    Prev
                   </a>
                   <a
                     href="#faq"
                     className="block rounded-xl px-3 py-3 transition hover:bg-base-200 hover:text-muted-text"
-                    onClick={closeMenu}
+                    onClick={(e) => handleMobileNav(e, '#faq')}
                   >
                     Contact Us
                   </a>
                   <a
                     href="#hero"
                     className="mt-auto block rounded-full bg-foreground px-4 py-4 text-center text-lg text-base-100 transition hover:bg-opacity-80"
-                    onClick={closeMenu}
+                    onClick={(e) => handleMobileNav(e, '#hero')}
                   >
                     Subscribe
                   </a>

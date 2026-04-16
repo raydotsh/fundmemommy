@@ -100,11 +100,11 @@ export default function Home() {
         {/* Mobile Menu */}
         {menuOpen && (
           <div
-            className="fixed inset-0 z-50 bg-black/50 md:hidden"
+            className="fixed inset-0 z-[70] bg-base-100 md:hidden"
             onClick={toggleMenu}
           >
             <div
-              className="fixed right-0 top-0 z-[60] flex h-full w-[min(20rem,88vw)] flex-col border-l border-base-300 bg-base-100 shadow-2xl"
+              className="fixed inset-0 flex h-full w-full flex-col bg-base-100"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-between border-b border-base-300 px-4 py-4">
@@ -132,7 +132,7 @@ export default function Home() {
                   </svg>
                 </button>
               </div>
-              <nav className="flex flex-1 flex-col gap-2 px-4 py-6 text-lg">
+              <nav className="flex flex-1 flex-col gap-2 bg-base-100 px-6 py-8 text-2xl">
                   <a
                     href="#hero"
                     className="block rounded-xl px-3 py-3 transition hover:bg-base-200 hover:text-muted-text"
@@ -163,7 +163,7 @@ export default function Home() {
                   </a>
                   <a
                     href="#hero"
-                    className="mt-auto block rounded-full bg-foreground px-4 py-3 text-center text-base-100 transition hover:bg-opacity-80"
+                    className="mt-auto block rounded-full bg-foreground px-4 py-4 text-center text-lg text-base-100 transition hover:bg-opacity-80"
                     onClick={closeMenu}
                   >
                     Subscribe

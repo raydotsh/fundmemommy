@@ -10,7 +10,8 @@ const merriweather = Merriweather({
 
 export const metadata: Metadata = {
   title: "FMM - Fund Me Mommy",
-  description: "Your mommy didn't approve your idea, but we will. Get useful insights into noteworthy tech projects and founders.",
+  description:
+    "Your mommy didn't approve your idea, but we will. Get useful insights into noteworthy tech projects and founders.",
 };
 
 export default function RootLayout({
@@ -23,7 +24,9 @@ export default function RootLayout({
       lang="en"
       className={`${merriweather.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-merriweather">{children}</body>
+      <body className="min-h-full flex flex-col font-merriweather overflow-x-hidden">
+        {children}
+      </body>
     </html>
   );
 }

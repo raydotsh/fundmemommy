@@ -7,6 +7,7 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
+  const [heroImageVisible, setHeroImageVisible] = useState(true);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
@@ -202,11 +203,14 @@ export default function Home() {
           </div>
           <div className="flex w-full flex-col items-center md:mt-0 md:w-1/3">
             <div className="flex w-full max-w-[18rem] items-center justify-center rounded-lg bg-white shadow-lg sm:max-w-xs md:h-80 md:w-80">
-              <img
-                src="/hero.jpg"
-                alt="Hero"
-                className="h-full w-full rounded-lg object-contain"
-              />
+              {heroImageVisible && (
+                <img
+                  src="/hero.jpg"
+                  alt=""
+                  className="h-full w-full rounded-lg object-contain"
+                  onError={() => setHeroImageVisible(false)}
+                />
+              )}
             </div>
             <p className="mt-4 text-lg font-bold">Project of the Day</p>
           </div>

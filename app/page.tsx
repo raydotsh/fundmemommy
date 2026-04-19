@@ -1,18 +1,85 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
-import toast, { Toaster } from 'react-hot-toast';
+import Image from "next/image";
+import { useEffect, useState, useRef } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [heroImageVisible, setHeroImageVisible] = useState(true);
   const [showFloatingHeader, setShowFloatingHeader] = useState(false);
   const [brandLogoVisible, setBrandLogoVisible] = useState(true);
   const [mailImageVisible, setMailImageVisible] = useState(true);
+  const [count, setCount] = useState(0);
+  const statsRef = useRef<HTMLDivElement | null>(null);
+  const [hasAnimated, setHasAnimated] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setHasAnimated(true);
+          observer.disconnect(); // run only once
+        }
+      },
+      { threshold: 0.5 } // 50% visible
+    );
+
+    if (statsRef.current) {
+      observer.observe(statsRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!hasAnimated) return;
+
+    let startTime: number | null = null;
+    const duration = 1200;
+    const end = 350;
+
+    const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
+
+    const animate = (time: number) => {
+      if (!startTime) startTime = time;
+      const progress = Math.min((time - startTime) / duration, 1);
+
+      const eased = easeOut(progress);
+      setCount(Math.floor(eased * end));
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }, [hasAnimated]);
+
+  useEffect(() => {
+    let startTime: number | null = null;
+    const duration = 1200;
+    const end = 350;
+
+    const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
+
+    const animate = (time: number) => {
+      if (!startTime) startTime = time;
+      const progress = Math.min((time - startTime) / duration, 1);
+
+      const eased = easeOut(progress);
+      setCount(Math.floor(eased * end));
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,9 +87,9 @@ export default function Home() {
     };
 
     handleScroll();
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
@@ -39,37 +106,37 @@ export default function Home() {
     requestAnimationFrame(() => {
       const target = document.querySelector(targetId);
       if (target instanceof HTMLElement) {
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     });
   };
 
-  const fundMeMommyInstagram = 'https://www.instagram.com/fundmemommy/';
-  const fundMeMommyTwitter = 'https://x.com/fundmemommy';
+  const fundMeMommyInstagram = "https://www.instagram.com/fundmemommy/";
+  const fundMeMommyTwitter = "https://x.com/fundmemommy";
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const res = await fetch('/api/subscribe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
 
       const data = await res.json();
-      console.log('API Response:', data);
+      console.log("API Response:", data);
 
       if (res.ok) {
         toast.success(data.message);
-        setEmail('');
+        setEmail("");
       } else {
         toast.error(data.message);
       }
     } catch (error) {
-      console.error('Error during subscription:', error);
-      toast.error('Something went wrong. Please try again.');
+      console.error("Error during subscription:", error);
+      toast.error("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -82,8 +149,8 @@ export default function Home() {
         id="header"
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
           showFloatingHeader
-            ? 'translate-y-0 opacity-100'
-            : '-translate-y-full opacity-0 pointer-events-none'
+            ? "translate-y-0 opacity-100"
+            : "-translate-y-full opacity-0 pointer-events-none"
         }`}
       >
         <div className="mx-auto mt-3 max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -135,8 +202,12 @@ export default function Home() {
               <button
                 onClick={toggleMenu}
                 className="flex h-10 w-10 items-center justify-center rounded-full bg-transparent p-0 text-foreground transition hover:translate-y-0 hover:bg-base-200 md:hidden"
-                aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-                style={{ background: 'transparent', color: 'inherit', padding: 0 }}
+                aria-label={menuOpen ? "Close menu" : "Open menu"}
+                style={{
+                  background: "transparent",
+                  color: "inherit",
+                  padding: 0,
+                }}
               >
                 <svg
                   className="h-6 w-6"
@@ -159,7 +230,7 @@ export default function Home() {
         {/* Mobile Menu */}
         {menuOpen && (
           <div
-            className="fixed inset-0 z-[70] bg-base-100 md:hidden"
+            className="fixed inset-0 z-70 bg-base-100 md:hidden"
             onClick={toggleMenu}
           >
             <div
@@ -174,7 +245,11 @@ export default function Home() {
                   onClick={closeMenu}
                   className="flex h-10 w-10 items-center justify-center rounded-full bg-transparent p-0 text-foreground transition hover:translate-y-0 hover:bg-base-200"
                   aria-label="Close menu"
-                  style={{ background: 'transparent', color: 'inherit', padding: 0 }}
+                  style={{
+                    background: "transparent",
+                    color: "inherit",
+                    padding: 0,
+                  }}
                 >
                   <svg
                     className="h-6 w-6"
@@ -192,42 +267,42 @@ export default function Home() {
                 </button>
               </div>
               <nav className="flex flex-1 flex-col gap-2 bg-base-100 px-6 py-8 text-2xl">
-                  <a
-                    href="#hero"
-                    className="block rounded-xl px-3 py-3 transition hover:bg-base-200 hover:text-muted-text"
-                    onClick={(e) => handleMobileNav(e, '#hero')}
-                  >
-                    Home
-                  </a>
-                  <a
-                    href="#this-week"
-                    className="block rounded-xl px-3 py-3 transition hover:bg-base-200 hover:text-muted-text"
-                    onClick={(e) => handleMobileNav(e, '#this-week')}
-                  >
-                    This Week
-                  </a>
-                  <a
-                    href="#about"
-                    className="block rounded-xl px-3 py-3 transition hover:bg-base-200 hover:text-muted-text"
-                    onClick={(e) => handleMobileNav(e, '#about')}
-                  >
-                    About
-                  </a>
-                  <a
-                    href="#prev"
-                    className="block rounded-xl px-3 py-3 transition hover:bg-base-200 hover:text-muted-text"
-                    onClick={(e) => handleMobileNav(e, '#prev')}
-                  >
-                    Prev
-                  </a>
-                  <a
-                    href="#faq"
-                    className="block rounded-xl px-3 py-3 transition hover:bg-base-200 hover:text-muted-text"
-                    onClick={(e) => handleMobileNav(e, '#faq')}
-                  >
-                    Contact Us
-                  </a>
-                </nav>
+                <a
+                  href="#hero"
+                  className="block rounded-xl px-3 py-3 transition hover:bg-base-200 hover:text-muted-text"
+                  onClick={(e) => handleMobileNav(e, "#hero")}
+                >
+                  Home
+                </a>
+                <a
+                  href="#about"
+                  className="block rounded-xl px-3 py-3 transition hover:bg-base-200 hover:text-muted-text"
+                  onClick={(e) => handleMobileNav(e, "#about")}
+                >
+                  About
+                </a>
+                <a
+                  href="#this-week"
+                  className="block rounded-xl px-3 py-3 transition hover:bg-base-200 hover:text-muted-text"
+                  onClick={(e) => handleMobileNav(e, "#this-week")}
+                >
+                  This Week
+                </a>
+                <a
+                  href="#prev"
+                  className="block rounded-xl px-3 py-3 transition hover:bg-base-200 hover:text-muted-text"
+                  onClick={(e) => handleMobileNav(e, "#prev")}
+                >
+                  Prev
+                </a>
+                <a
+                  href="#faq"
+                  className="block rounded-xl px-3 py-3 transition hover:bg-base-200 hover:text-muted-text"
+                  onClick={(e) => handleMobileNav(e, "#faq")}
+                >
+                  Contact Us
+                </a>
+              </nav>
             </div>
           </div>
         )}
@@ -236,7 +311,7 @@ export default function Home() {
       {/* Hero Section */}
       <section
         id="hero"
-        className="relative flex items-center bg-gradient-to-b from-base-100 to-base-200 px-4 py-16 text-left sm:px-6 sm:py-20 lg:px-8"
+        className="relative flex items-center bg-linear-to-b from-base-100 to-base-200 px-4 py-16 text-left sm:px-6 sm:py-20 lg:px-8"
       >
         <div className="relative z-10 mx-auto flex max-w-6xl flex-col gap-10">
           <div className="grid gap-8 lg:grid-cols-[1fr_auto_1fr] lg:items-start">
@@ -273,31 +348,31 @@ export default function Home() {
             <div className="relative flex flex-wrap items-center gap-3 lg:justify-end">
               <a
                 href="#about"
-                className="inline-flex rounded-full border-2 border-foreground bg-base-100 px-5 py-2 text-sm font-bold uppercase tracking-[0.14em] transition hover:-translate-y-0.5"
+                className="inline-flex rounded-full border-2 border-foreground bg-base-100 px-5 py-2 text-sm font-bold transition hover:-translate-y-0.5"
               >
                 About
               </a>
               <a
                 href="#faq"
-                className="inline-flex rounded-full border-2 border-foreground bg-base-100 px-5 py-2 text-sm font-bold uppercase tracking-[0.14em] transition hover:-translate-y-0.5"
+                className="inline-flex rounded-full border-2 border-foreground bg-base-100 px-5 py-2 text-sm font-bold transition hover:-translate-y-0.5"
               >
                 Subscribe
               </a>
               <button
                 type="button"
                 onClick={toggleMore}
-                className="inline-flex rounded-full border-2 border-foreground bg-base-100 px-5 py-2 text-sm font-bold uppercase tracking-[0.14em] text-foreground transition hover:-translate-y-0.5"
+                className="inline-flex rounded-full border-2 border-foreground bg-base-100 px-5 py-2 text-sm font-bold text-foreground transition hover:-translate-y-0.5 cursor-pointer"
               >
                 More
               </button>
               {moreOpen && (
-                <div className="top-full z-20 mt-3 flex w-full min-w-[15rem] flex-col gap-3 rounded-[1.5rem] border border-base-300 bg-base-100 p-4 shadow-[0_18px_45px_rgba(0,0,0,0.08)] lg:absolute lg:right-0 lg:w-auto">
+                <div className="top-full z-20 mt-3 flex w-full min-w-60 flex-col gap-3 rounded-3xl border border-base-300 bg-base-100 p-4 shadow-[0_18px_45px_rgba(0,0,0,0.08)] lg:absolute lg:right-0 lg:w-auto">
                   <a
                     href={fundMeMommyInstagram}
                     target="_blank"
                     rel="noreferrer"
                     onClick={closeMore}
-                    className="rounded-2xl border border-base-300 px-4 py-3 text-sm font-bold uppercase tracking-[0.12em] transition hover:bg-base-200"
+                    className="rounded-2xl border border-base-300 px-4 py-3 text-sm font-bold transition hover:bg-base-200"
                   >
                     Instagram
                   </a>
@@ -306,7 +381,7 @@ export default function Home() {
                     target="_blank"
                     rel="noreferrer"
                     onClick={closeMore}
-                    className="rounded-2xl border border-base-300 px-4 py-3 text-sm font-bold uppercase tracking-[0.12em] transition hover:bg-base-200"
+                    className="rounded-2xl border border-base-300 px-4 py-3 text-sm font-bold transition hover:bg-base-200"
                   >
                     Twitter / X
                   </a>
@@ -314,55 +389,59 @@ export default function Home() {
               )}
             </div>
           </div>
-        <div className="relative z-10 mx-auto flex max-w-6xl flex-col gap-10 md:flex-row md:items-start md:space-x-12">
-          <div className="w-full md:w-2/3">
-            <h1 className="mb-6 text-4xl font-bold sm:text-5xl lg:text-6xl">
-              Your mommy didn&apos;t approve your idea, but we will.
-            </h1>
-            <p className="mb-8 text-base text-muted-text sm:text-lg">
-              Not just another newsletter. We also review tech projects worth
-              your attention so that you can doomscroll instead. Founders get visibility. You
-              get to stay ahead in the game.
-            </p>
-            <form
-              onSubmit={handleSubscribe}
-              className="flex w-full flex-col gap-3 sm:max-w-xl sm:flex-row sm:items-center sm:gap-2"
-            >
-              <input
-                type="email"
-                placeholder="you@domain.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-full border border-base-300 px-4 py-3 sm:w-2/3 sm:min-w-0"
-              />
-              <button
-                type="submit"
-                className="rounded-full bg-black px-6 py-3 font-bold text-white transition-colors hover:bg-gray-800"
-                disabled={loading}
+          <div className="relative z-10 mx-auto flex max-w-6xl flex-col gap-10 md:flex-row md:items-start md:space-x-12">
+            <div className="w-full md:w-2/3">
+              <h1 className="my-6 text-4xl font-bold sm:text-5xl lg:text-6xl">
+                Your mommy didn&apos;t approve your idea, <br /> but we will.
+              </h1>
+              <p className="mb-8 text-base text-muted-text sm:text-lg">
+                Not just another newsletter. We also review tech projects worth
+                your attention so that you can doomscroll instead. Founders get
+                visibility. You get to stay ahead in the game.
+              </p>
+              <form
+                onSubmit={handleSubscribe}
+                className="flex w-full flex-col gap-3 sm:max-w-xl sm:flex-row sm:items-center sm:gap-2"
               >
-                {loading ? 'Subscribing...' : 'Subscribe'}
-              </button>
-            </form>
-            <p className="mt-4 text-sm text-muted-text">
-              Join 00,350+ readers worldwide now
-            </p>
-          </div>
-          <div className="flex w-full flex-col items-center md:mt-0 md:w-1/3">
-            <div className="flex w-full max-w-[18rem] items-center justify-center rounded-lg bg-white shadow-lg sm:max-w-xs md:h-80 md:w-80">
-              {heroImageVisible && (
-                <Image
-                  src="/hero.jpg"
-                  alt=""
-                  className="h-full w-full rounded-lg object-contain"
-                  width={640}
-                  height={640}
-                  onError={() => setHeroImageVisible(false)}
+                <input
+                  type="email"
+                  placeholder="you@domain.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full rounded-full border border-base-300 px-4 py-3 sm:w-2/3 sm:min-w-0"
+                  required
                 />
-              )}
+                <button
+                  type="submit"
+                  className="rounded-full bg-black px-6 py-3 font-bold text-white transition-colors hover:bg-gray-800"
+                  disabled={loading}
+                >
+                  {loading ? "Subscribing..." : "Subscribe"}
+                </button>
+              </form>
+              <p className="mt-4 text-sm text-muted-text">
+                Join 350+ readers worldwide now
+              </p>
             </div>
-            <p className="mt-4 text-lg font-bold">Project of the Day</p>
+            <a
+              href="https://www.adden.ai/"
+              target="_blank"
+              rel="noreferrer"
+              className="group flex w-full flex-col items-center my-10 md:w-1/3"
+            >
+              <Image
+                src="/addenai.png"
+                alt="Project preview"
+                className="w-full max-w-88 object-contain rounded-lg"
+                width={1280}
+                height={720}
+              />
+
+              <p className="mt-4 text-lg font-bold transition group-hover:underline">
+                Project of the Day
+              </p>
+            </a>
           </div>
-        </div>
         </div>
       </section>
 
@@ -371,8 +450,9 @@ export default function Home() {
         className="bg-base-100 px-4 py-16 sm:px-6 sm:py-20 lg:px-8"
       >
         <div className="mx-auto max-w-6xl">
-          <div className="mb-12 flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
-            <div className="max-w-3xl">
+          {/* Heading (fixed) */}
+          <div className="mb-12 text-center">
+            <div className="mx-auto max-w-3xl">
               <div className="mb-4 inline-block rounded-full border border-base-300 bg-base-100 px-4 py-2 text-sm font-medium text-foreground">
                 About Us
               </div>
@@ -381,8 +461,10 @@ export default function Home() {
               </h2>
             </div>
           </div>
+
+          {/* Content */}
           <div className="grid gap-6 lg:grid-cols-[1.25fr_0.75fr]">
-            <div className="rounded-[2rem] border border-base-300 bg-base-100 p-8 shadow-[0_18px_50px_rgba(0,0,0,0.05)]">
+            <div className="rounded-4xl border border-base-300 bg-base-100 p-8 shadow-[0_18px_50px_rgba(0,0,0,0.05)]">
               <p className="text-lg leading-8 text-foreground">
                 FundMeMommy is a newsletter and project discovery space for
                 people who want useful signals without digging through endless
@@ -397,6 +479,7 @@ export default function Home() {
                 twitter.
               </p>
             </div>
+
             <div className="grid gap-6">
               <div className="rounded-2xl border border-base-300 bg-base-100 p-6 transition-shadow hover:shadow-lg">
                 <h3 className="mb-2 font-bold">What it does</h3>
@@ -406,7 +489,11 @@ export default function Home() {
                   format.
                 </p>
               </div>
-              <div id="more" className="rounded-2xl border border-base-300 bg-base-100 p-6 transition-shadow hover:shadow-lg">
+
+              <div
+                id="more"
+                className="rounded-2xl border border-base-300 bg-base-100 p-6 transition-shadow hover:shadow-lg"
+              >
                 <h3 className="mb-3 font-bold">More</h3>
                 <div className="flex flex-col gap-3">
                   <a
@@ -443,11 +530,11 @@ export default function Home() {
           <div className="flex animate-scroll whitespace-nowrap">
             <div className="flex items-center space-x-6">
               {[
-                'TECH PROJECTS',
-                'FOUNDER VISIBILITY',
-                'INVESTOR INSIGHTS',
-                'WEEKLY BRIEF',
-                'HIGH-SIGNAL READS',
+                "TECH PROJECTS",
+                "FOUNDER VISIBILITY",
+                "INVESTOR INSIGHTS",
+                "WEEKLY BRIEF",
+                "HIGH-SIGNAL READS",
               ].map((item, index) => (
                 <span
                   key={index}
@@ -461,11 +548,11 @@ export default function Home() {
             <div className="ml-6 flex items-center space-x-6">
               <span className="text-muted-text">•</span>
               {[
-                'TECH PROJECTS',
-                'FOUNDER VISIBILITY',
-                'INVESTOR INSIGHTS',
-                'WEEKLY BRIEF',
-                'HIGH-SIGNAL READS',
+                "TECH PROJECTS",
+                "FOUNDER VISIBILITY",
+                "INVESTOR INSIGHTS",
+                "WEEKLY BRIEF",
+                "HIGH-SIGNAL READS",
               ].map((item, index) => (
                 <span
                   key={`dup-${index}`}
@@ -481,7 +568,9 @@ export default function Home() {
         {/* Stats Card */}
         <div className="relative z-10 flex justify-center">
           <div className="w-full max-w-sm rounded-2xl border border-base-300 bg-base-100 p-8 text-center transition-shadow hover:shadow-lg sm:max-w-md sm:p-12">
-            <div className="mb-2 text-4xl font-bold">350</div>
+            <div ref={statsRef} className="mb-2 text-4xl font-bold">
+              {count}
+            </div>
             <div className="text-sm uppercase text-muted-text">
               Total readers
             </div>
@@ -497,7 +586,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-radial from-base-200/20 to-transparent"></div>
         <div className="relative z-10 mx-auto max-w-6xl">
           <div className="mb-12 text-center">
-            <div className="mb-4 inline-block rounded-full bg-base-200 px-3 py-1 text-sm font-medium text-foreground">
+            <div className="mb-4 inline-block rounded-full border border-base-300 bg-base-100 px-4 py-2 text-sm font-medium text-foreground">
               About this newsletter
             </div>
             <h2 className="mb-4 text-3xl font-bold sm:text-4xl">
@@ -546,11 +635,11 @@ export default function Home() {
       {/* This Week Section */}
       <section
         id="this-week"
-        className="bg-gradient-to-b from-base-100 to-base-200 px-4 py-16 sm:px-6 sm:py-20 lg:px-8"
+        className="bg-linear-to-b from-base-100 to-base-200 px-4 py-16 sm:px-6 sm:py-20 lg:px-8"
       >
         <div className="mx-auto max-w-6xl">
           <div className="mb-12 text-center">
-            <div className="mb-4 inline-block rounded-full bg-base-100 px-3 py-1 text-sm font-medium text-foreground">
+            <div className="mb-4 inline-block rounded-full border border-base-300 px-4 py-2 text-sm font-medium text-foreground">
               This Week
             </div>
             <h2 className="text-3xl font-bold sm:text-4xl">Coming Soon</h2>
@@ -565,7 +654,7 @@ export default function Home() {
       >
         <div className="mx-auto max-w-6xl">
           <div className="mb-12 text-center">
-            <div className="mb-4 inline-block rounded-full bg-base-200 px-3 py-1 text-sm font-medium text-foreground">
+            <div className="mb-4 inline-block rounded-full border border-base-300 px-4 py-2 text-sm font-medium text-foreground">
               Previous Issues
             </div>
             <h2 className="text-3xl font-bold sm:text-4xl">Coming Soon</h2>
@@ -581,8 +670,8 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-radial from-base-300/20 to-transparent"></div>
         <div className="relative z-10 mx-auto flex max-w-6xl flex-col">
           <div className="mb-12 text-center">
-            <div className="mb-4 inline-block rounded-full bg-base-200 px-3 py-1 text-sm font-medium text-foreground">
-              SOME QUESTIONS YOUR MOM WOULD ASK
+            <div className="mb-4 inline-block rounded-full border border-base-300 px-4 py-2 text-sm font-medium text-foreground">
+              Some questions your mom would ask
             </div>
             <p className="mx-auto mb-6 max-w-2xl text-muted-text">
               fund me mommy is a website meant to educate and promote your
@@ -607,19 +696,19 @@ export default function Home() {
                 </p>
               </div>
             </div>
-            <div className="w-full rounded-[2rem] border border-base-300 bg-base-100 px-6 py-8 text-center shadow-[0_18px_50px_rgba(0,0,0,0.06)]">
+            <div className="w-full rounded-4xl border border-base-300 bg-base-100 px-6 py-8 text-center shadow-[0_18px_50px_rgba(0,0,0,0.06)]">
               <div className="mail-tilt-wrapper mb-5 flex justify-center">
                 {mailImageVisible ? (
                   <Image
                     src="/mail-image.png"
                     alt="Subscribe by mail"
-                    className="mail-tilt h-32 w-auto object-contain sm:h-36"
+                    className="mail-tilt h-32 w-auto object-contain sm:h-36 rounded-4xl"
                     width={320}
                     height={320}
                     onError={() => setMailImageVisible(false)}
                   />
                 ) : (
-                  <div className="mail-tilt flex h-28 w-28 items-center justify-center rounded-[2rem] border-2 border-foreground bg-[#f8d8e7] text-5xl shadow-[4px_4px_0_0_rgba(9,9,11,1)]">
+                  <div className="mail-tilt flex h-28 w-28 items-center justify-center rounded-4xl border-2 border-foreground bg-[#f8d8e7] text-5xl shadow-[4px_4px_0_0_rgba(9,9,11,1)]">
                     ✉
                   </div>
                 )}
@@ -636,15 +725,15 @@ export default function Home() {
                   placeholder="you@domain.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full max-w-[22rem] rounded-2xl border border-base-300 px-4 py-3 text-center"
+                  className="w-3/4 max-w-88 rounded-2xl border border-base-300 px-4 py-3 text-center"
                   required
                 />
                 <button
                   type="submit"
-                  className="rounded-full bg-black px-6 py-3 font-bold text-white transition-colors hover:bg-gray-800"
+                  className="w-3/4 rounded-full bg-black px-6 py-3 font-bold text-white transition-colors hover:bg-gray-800"
                   disabled={loading}
                 >
-                  {loading ? 'Subscribing...' : 'Subscribe'}
+                  {loading ? "Subscribing..." : "Subscribe"}
                 </button>
               </form>
             </div>
@@ -671,7 +760,7 @@ export default function Home() {
       {/* Footer */}
       <footer
         id="footer"
-        className="bg-gradient-to-r from-base-300 to-base-200 px-4 py-12 sm:px-6 lg:px-8"
+        className="bg-linear-to-r from-base-300 to-base-200 px-4 py-12 sm:px-6 lg:px-8"
       >
         <div className="mx-auto max-w-6xl">
           <div className="mb-8 flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
@@ -702,7 +791,9 @@ export default function Home() {
                   </a>
                 )}
               </div>
-              <p className="text-muted-text">we research so you can scroll twitter.</p>
+              <p className="text-muted-text">
+                we research so you can scroll twitter.
+              </p>
             </div>
             <div>
               <h3 className="mb-4 font-bold">NAVIGATION</h3>
@@ -757,12 +848,12 @@ export default function Home() {
                   className="rounded-full bg-foreground px-6 py-3 text-base-100 transition hover:bg-opacity-80"
                   disabled={loading}
                 >
-                  {loading ? 'Subscribing...' : 'Subscribe'}
+                  {loading ? "Subscribing..." : "Subscribe"}
                 </button>
               </form>
             </div>
           </div>
-          <div className="border-t border-base-200 pt-4">
+          <div className="border-t border-base-300 pt-4">
             <p className="text-sm text-muted-text">
               © 2026 fundmemommy. All rights reserved.
             </p>

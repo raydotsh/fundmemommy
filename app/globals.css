@@ -111,3 +111,22 @@ button:hover,
   background: var(--accent-hover);
   transform: translateY(-1px);
 }
+
+.mail-tilt {
+  display: block;
+  transform-origin: center bottom;
+}
+
+@media (hover: hover) {
+  .mail-tilt {
+    transition:
+      transform 0.22s ease,
+      filter 0.22s ease;
+  }
+
+  .mail-tilt:hover,
+  .mail-tilt-wrapper:hover .mail-tilt {
+    transform: rotate(8deg) translateX(4px);
+    filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.12));
+  }
+}

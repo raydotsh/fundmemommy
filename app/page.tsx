@@ -9,7 +9,6 @@ export default function Home() {
   const [moreOpen, setMoreOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
-  const [heroImageVisible, setHeroImageVisible] = useState(true);
   const [showFloatingHeader, setShowFloatingHeader] = useState(false);
   const [brandLogoVisible, setBrandLogoVisible] = useState(true);
   const [mailImageVisible, setMailImageVisible] = useState(true);
@@ -58,28 +57,6 @@ export default function Home() {
 
     requestAnimationFrame(animate);
   }, [hasAnimated]);
-
-  useEffect(() => {
-    let startTime: number | null = null;
-    const duration = 1200;
-    const end = 350;
-
-    const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
-
-    const animate = (time: number) => {
-      if (!startTime) startTime = time;
-      const progress = Math.min((time - startTime) / duration, 1);
-
-      const eased = easeOut(progress);
-      setCount(Math.floor(eased * end));
-
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      }
-    };
-
-    requestAnimationFrame(animate);
-  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -142,6 +119,31 @@ export default function Home() {
     }
   };
 
+  const phrases = [
+    "finds the internet's coolest projects",
+    "surfaces underrated indie builders",
+    "posts AI commentary videos",
+  ];
+
+  const [index, setIndex] = useState(0);
+  const [displayText, setDisplayText] = useState(phrases[0]);
+  const [isFlipping, setIsFlipping] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsFlipping(true);
+
+      setTimeout(() => {
+        const nextIndex = (index + 1) % phrases.length;
+        setIndex(nextIndex);
+        setDisplayText(phrases[nextIndex]);
+        setIsFlipping(false);
+      }, 300);
+    }, 2500);
+
+    return () => clearInterval(interval);
+  }, [index]);
+
   return (
     <div className="min-h-screen overflow-x-hidden bg-base-100 text-foreground">
       {/* Sticky Header */}
@@ -195,13 +197,13 @@ export default function Home() {
             <div className="flex shrink-0 items-center space-x-3">
               <a
                 href="#faq"
-                className="hidden rounded-full bg-foreground px-4 py-2 text-base-100 transition hover:bg-opacity-80 md:block"
+                className="hidden rounded-full bg-accent px-4 py-2 text-base-100 transition hover:bg-opacity-100 md:block"
               >
                 Subscribe
               </a>
               <button
                 onClick={toggleMenu}
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-transparent p-0 text-foreground transition hover:translate-y-0 hover:bg-base-200 md:hidden"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-transparent p-0 text-foreground transition hover:translate-y-0 hover:bg-base-200 md:hidden cursor-pointer"
                 aria-label={menuOpen ? "Close menu" : "Open menu"}
                 style={{
                   background: "transparent",
@@ -243,7 +245,7 @@ export default function Home() {
                 </div>
                 <button
                   onClick={closeMenu}
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-transparent p-0 text-foreground transition hover:translate-y-0 hover:bg-base-200"
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-transparent p-0 text-foreground transition hover:translate-y-0 hover:bg-base-200 cursor-pointer"
                   aria-label="Close menu"
                   style={{
                     background: "transparent",
@@ -319,9 +321,18 @@ export default function Home() {
               <p className="text-lg leading-tight text-foreground sm:text-xl">
                 A digital publication that...
               </p>
-              <p className="text-lg font-bold leading-tight text-foreground sm:text-xl">
-                helps people discover tech projects worth their attention
-              </p>
+
+              <div className="relative h-[1.6em] overflow-hidden perspective-[1000px]">
+                <p
+                  className={`absolute w-full text-lg font-bold leading-tight text-foreground sm:text-xl transition-all duration-300 ${
+                    isFlipping
+                      ? "rotate-x-90 opacity-0"
+                      : "rotate-x-0 opacity-100"
+                  }`}
+                >
+                  {displayText}
+                </p>
+              </div>
             </div>
             <div className="flex justify-start lg:justify-center">
               <a
@@ -351,12 +362,6 @@ export default function Home() {
                 className="inline-flex rounded-full border-2 border-foreground bg-base-100 px-5 py-2 text-sm font-bold transition hover:-translate-y-0.5"
               >
                 About
-              </a>
-              <a
-                href="#faq"
-                className="inline-flex rounded-full border-2 border-foreground bg-base-100 px-5 py-2 text-sm font-bold transition hover:-translate-y-0.5"
-              >
-                Subscribe
               </a>
               <button
                 type="button"
@@ -397,7 +402,7 @@ export default function Home() {
               <p className="mb-8 text-base text-muted-text sm:text-lg">
                 Not just another newsletter. We also review tech projects worth
                 your attention so that you can doomscroll instead. Founders get
-                visibility. You get to stay ahead in the game.
+                visibility. <br /> You get to stay ahead in the game.
               </p>
               <form
                 onSubmit={handleSubscribe}
@@ -413,7 +418,7 @@ export default function Home() {
                 />
                 <button
                   type="submit"
-                  className="rounded-full bg-black px-6 py-3 font-bold text-white transition-colors hover:bg-gray-800"
+                  className="rounded-full bg-[#FF2D87] px-6 py-3 font-bold text-white transition-colors hover:bg-[#C4005F] cursor-pointer"
                   disabled={loading}
                 >
                   {loading ? "Subscribing..." : "Subscribe"}
@@ -730,7 +735,7 @@ export default function Home() {
                 />
                 <button
                   type="submit"
-                  className="w-3/4 rounded-full bg-black px-6 py-3 font-bold text-white transition-colors hover:bg-gray-800"
+                  className="w-3/4 rounded-full bg-[#FF2D87] px-6 py-3 font-bold text-white transition-colors hover:bg-[#C4005F] cursor-pointer"
                   disabled={loading}
                 >
                   {loading ? "Subscribing..." : "Subscribe"}
@@ -845,7 +850,7 @@ export default function Home() {
                 />
                 <button
                   type="submit"
-                  className="rounded-full bg-foreground px-6 py-3 text-base-100 transition hover:bg-opacity-80"
+                  className="rounded-full bg-foreground px-6 py-3 text-base-100 transition hover:bg-opacity-80 cursor-pointer"
                   disabled={loading}
                 >
                   {loading ? "Subscribing..." : "Subscribe"}
